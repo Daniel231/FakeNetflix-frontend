@@ -18,4 +18,4 @@ writing with react, material ui, redux and redux saga.
 4. Finally run code with `yarn start`
 
 # 📝 Environment Requirements
- - FakeNetflix backend: RESTerisk working with asterisk pbx for managing the pbx itself.
+ - FakeNetflix backend.
