@@ -11,7 +11,7 @@ writing with react, material ui, redux and redux saga.
 - store: Contain all the redux store configurations (actions, reducers, and sagas for redux saga).
 
 # 🚀 How to get started
-1. git clone `git clone git@bitbucket.org:assacnetworks/resterisk.git`
+1. git clone `git clone git@github.com:Daniel231/FakeNetflix-frontend.git`
 2. Install all packages with `yarn`
 3. Create .env file in the main directory and edit it to have the following variables:
     - REACT_APP_BASE_URL: The url of the fakenetflix backend api.
