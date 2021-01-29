@@ -1,8 +1,9 @@
-import React from 'react'
-import { makeStyles, TextField } from '@material-ui/core';
+import React, {useEffect} from 'react'
+import { makeStyles, TextField, Grid} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SearchButton from './SearchBotton';
 
 const useStyles = makeStyles({
         root: {
@@ -22,25 +23,24 @@ const SearchBox = ({ placeholder, options, fetchOptions, onChange, loading}) => 
     const dispatch = useDispatch();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    let timeout = 0;
+    const [searchText, setSearchText] = React.useState('');
 
     /**
      * Fetching search options from the server base on input text from the user.
      * 
-     * @param {string} searchText - The autocomplete text that will be sent to the backend and by that text will bring search options
      */
-    const searchOption = (searchText) => {
-      // Using timeout to reduce the number of requests (you dont want to do a request for each letter the user insert),
-      // first checking if the user still typing by checking if there is already value to timout
-      if (timeout) {
-        clearTimeout(timeout);
-      }
+    useEffect(() => {
       if(searchText.trim() !== '') {
-        timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
           dispatch(fetchOptions(searchText));
-        }, 1500);
+        }, 300)
+        
+        return () => {
+          clearTimeout(timeout);
+        };
       }
-    }
+        
+    }, [searchText, dispatch, fetchOptions])
 
     /**
      * Fetching results from the server based on the choosing option from the list.
@@ -48,14 +48,18 @@ const SearchBox = ({ placeholder, options, fetchOptions, onChange, loading}) => 
      * @param {Event} event - The onclick js event.
      * @param {string} value - The value of the selected option from the list
      */
-    const onOptionSelected = (event,value) => {
+    const onOptionSelected = (event, value) => {
       // In case the user delete the search
-      if (value) {
-        dispatch(onChange(value.name));
-      }
+      dispatch(onChange(value?.name));
+    }
+    
+    const onSearchButtonClicked = () => {
+      dispatch(onChange(searchText))
     }
   
     return (
+      <Grid container justify="center" alignItems="center" spacing={2}>
+        <Grid item>
         <Autocomplete
           className={classes.root}
           open={open}
@@ -70,13 +74,14 @@ const SearchBox = ({ placeholder, options, fetchOptions, onChange, loading}) => 
           getOptionLabel={(option) => option.name}
           onChange={onOptionSelected}
           options={options}
+          clearOnBlur={false}
           loading={loading || (open && options.length === 0)}
           renderInput={(params) => (
             <TextField
               {...params}
               fullWidth
               label={placeholder || "Search"}
-              onChange={(event) => searchOption(event.target.value)}
+              onChange={(event) => setSearchText(event.target.value)}
               variant="outlined"
               margin="normal"
               InputProps={{
@@ -90,6 +95,11 @@ const SearchBox = ({ placeholder, options, fetchOptions, onChange, loading}) => 
             />
           )}
         />
+        </Grid>
+        <Grid item>
+          <SearchButton onClick={onSearchButtonClicked} />
+        </Grid>
+      </Grid>
     );
 }
 

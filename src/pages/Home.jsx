@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Container } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import SearchButton from '../components/SearchBotton';
 import SearchBox from '../components/SearchBox';
 import Shows from '../components/Shows';
 import {fetchShows, searchShows} from '../store/actions/home-actions';
@@ -24,16 +23,17 @@ const Home = () => {
                 justify="center"
                 alignItems="center"
             >
-                <Grid item container justify="center" alignItems="center" spacing={2}>
                 <Grid item>
-                    <SearchBox loading={loadingShowsOptions} options={showsOptions} placeholder={"Search for a show"} onChange={fetchShows} fetchOptions={searchShows} />
+                        <SearchBox 
+                            loading={loadingShowsOptions}
+                            options={showsOptions}
+                            placeholder={"Search for a show"}
+                            onChange={fetchShows}
+                            fetchOptions={searchShows}
+                        />
                 </Grid>
                 <Grid item>
-                    <SearchButton />
-                </Grid>
-                </Grid>
-                <Grid item>
-                <Shows shows={shows}/>
+                    <Shows shows={shows}/>
                 </Grid>
             </Grid>
         </Container>

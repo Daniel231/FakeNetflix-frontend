@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-    switch (action.type){
+    switch (action.type) {
         case ActionTypes.FETCH_SHOWS_REQUEST:
                 return {...state, loadingShows: true, error:null};
         case ActionTypes.FETCH_SHOWS_SUCCESS:
