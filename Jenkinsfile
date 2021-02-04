@@ -7,6 +7,13 @@ pipeline {
 
   }
   stages {
+
+    stage('Install dependecies') {
+      steps {
+        sh 'npm install'
+      }
+    }
+
     stage('Build') {
       steps {
         echo 'build'
@@ -15,7 +22,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        echo 'test'
+        sh 'npm run test'
       }
     }
 
